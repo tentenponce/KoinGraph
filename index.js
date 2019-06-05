@@ -7,4 +7,4 @@ let param = paramService.getParameters()
 
 /* build json graph */
 let koinGraphService = new KoinGraphService(param)
-koinGraphService.buildGraph()
+let graph = koinGraphService.buildGraph()
