@@ -1,0 +1,19 @@
+{
+  "name": "koingraph",
+  "version": "0.1.0",
+  "description": "Graph generator for android projects using Koin",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tentenponce/KoinGraph.git"
+  },
+  "keywords": [
+    "koingraph"
+  ],
+  "author": "Exequiel Egbert V. Ponce",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tentenponce/KoinGraph/issues"
+  },
+  "homepage": "https://github.com/tentenponce/KoinGraph#readme"
+}
