@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<svg width="960" height="600"></svg>
+
+<script type="text/javascript" src="koin-graph.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+  function getNodeColor(node) {
+    return node.level === 1 ? 'red' : 'gray'
+  }
+
+  var width = window.innerWidth
+  var height = window.innerHeight
+
+  // set canvas
+  var svg = d3.select('svg')
+    .attr('width', width)
+    .attr('height', height)
+
+  // node position and their attaction to one another
+  const simulation = d3.forceSimulation()
+    .force('link', d3.forceLink().id(link => link.id).strength(link => 0.01))
+    .force('charge', d3.forceManyBody())
+    .force('center', d3.forceCenter(width / 2, height / 2))
+
+  // create node elements with their attributes
+  const nodeElements = svg.append('g')
+    .selectAll('circle')
+    .data(nodes)
+    .enter().append('circle')
+    .attr('r', 10)
+    .attr('fill', getNodeColor)
+
+  const textElements = svg.append('g')
+    .selectAll('text')
+    .data(nodes)
+    .enter().append('text')
+    .text(node => node.label)
+    .attr('font-size', 10)
+    .attr('dx', 15)
+    .attr('dy', 4)
+
+  // create line element that will represent link
+  const linkElements = svg.append('g')
+    .selectAll('line')
+    .data(links)
+    .enter().append('line')
+    .attr('stroke-width', 1)
+    .attr('stroke', '#E5E5E5')
+
+  // move links every thick
+  linkElements
+    .attr('x1', link => link.source.x)
+    .attr('y1', link => link.source.y)
+    .attr('x2', link => link.target.x)
+    .attr('y2', link => link.target.y)
+
+  // render nodes and links
+  simulation.nodes(nodes).on('tick', () => {
+    nodeElements
+      .attr('cx', node => node.x)
+      .attr('cy', node => node.y)
+    textElements
+      .attr('x', node => node.x)
+      .attr('y', node => node.y)
+    linkElements
+      .attr('x1', function (link) { return link.source.x })
+      .attr('y1', function (link) { return link.source.y })
+      .attr('x2', function (link) { return link.target.x })
+      .attr('y2', function (link) { return link.target.y })
+  })
+
+  // show links
+  simulation.force('link').links(links)
+
+  function dragstarted(d) {
+    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+  function dragged(d) {
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
+  }
+  function dragended(d) {
+    if (!d3.event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+</script>
