@@ -47,8 +47,11 @@ class FindModuleService {
      * 
      * input minified content: import....classComponentA(dependencyA: DependencyA, dependencyB: DependencyB)....
      * output: classComponentA(dependencyA: DependencyA, dependencyB: DependencyB
+     * 
+     * input without dependency: import....classComponentA{....
+     * output : classComponentA
      */
-    let className = this.getFileContents(file).match(/class[^)]+/)
+    let className = this.getFileContents(file).match(/class[^{)]+/)
 
     /** 
      * remove the class name to get dependencies only and split it.
@@ -57,7 +60,12 @@ class FindModuleService {
      * input: classComponentA(dependencyA: DependencyA, dependencyB: DependencyB
      * output: ['dependencyA: DependencyA', 'dependencyB: DependencyB']
      */
-    let rawDependencies = className[0].replace(/class.+\(/g, '').split(',')
+    let rawDependencies
+    if (className[0].indexOf('(') > 0) {
+      rawDependencies = className[0].replace(/class.+\(/g, '').split(',')
+    } else {
+      rawDependencies = []
+    }
 
     let dependencies = []
     for (var i in rawDependencies) {
