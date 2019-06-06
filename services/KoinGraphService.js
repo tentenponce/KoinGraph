@@ -25,10 +25,6 @@ class KoinGraphService {
     for (var i in modules) {
       let module = modules[i]
 
-      // add the module to the graph
-      let moduleNode = new KoinModule(module)
-      graph[module] = moduleNode
-
       // find the actual file of the module, and get its dependencies
       for (var j in projFiles) {
         let file = projFiles[j]
@@ -37,21 +33,18 @@ class KoinGraphService {
           // get the dependencies of the module
           let dependencies = this.findModuleService.getClassDependencies(file)
 
-          // loop tru dependency to add in graph
+          // register module to the graph and its dependencies
+          graph[module] = dependencies
+
+          // register dependencies on the graph if they not exist
           for (var k in dependencies) {
             let dependency = dependencies[k]
 
-            // check if dependency is already added on the graph
-            let dependencyNode = graph[dependency]
-            if (!dependencyNode) {
-              dependencyNode = new KoinModule(dependency)
+            if (!graph[dependency]) {
+              graph[dependency] = []
             }
-
-            // connect the module and dependency
-            graph[dependencyNode.name] = dependencyNode
-            moduleNode.connect(dependencyNode)
           }
-
+          
           break
         }
       }

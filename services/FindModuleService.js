@@ -32,8 +32,8 @@ class FindModuleService {
      */
     let moduleFiles = []
     for (var i in modules) {
-      let single = modules[i].replace('single{', '').replace('viewModel{', '') // remove `single{` and `viewModel{`.
-      moduleFiles.push(single.match(/[^(]+(?:(?!\().)/)[0]) // get word up until first open parenthesis.
+      let moduleNode = modules[i].replace('single{', '').replace('viewModel{', '') // remove `single{` and `viewModel{`.
+      moduleFiles.push(moduleNode.match(/[^(]+(?:(?!\().)/)[0]) // get word up until first open parenthesis.
     }
 
     return moduleFiles
