@@ -4,24 +4,35 @@ class FindModuleService {
 
   getModules(file) {
     /**
-     * get array of single {...} from the minified file.
+     * get array of single{...} and viewModel{...} from the minified file.
      * 
      * Example:
      * 
      * input minified file content: ...single{componentA(get(), get())}single{componentB(get(),get())}...
      * output array: ['single{componentA(get(), get())}', 'single{componentB(get(),get())}']
      */
-    let singles = this.getFileContents(file).match(/single\{((?!single).)*\(((?!single).)*\)\}/g)
+    let minifiedFile = this.getFileContents(file)
+    let singles = minifiedFile.match(/single\{((?!single).)*\(((?!single).)*\)\}/g)
+    let viewModels = minifiedFile.match(/viewModel\{((?!viewModel).)*\(((?!viewModel).)*\)\}/g)
+
+    let modules = []
+    if (viewModels) {
+      modules = modules.concat(viewModels)
+    }
+
+    if (singles) {
+      modules = modules.concat(singles)
+    }
 
     /**
-     * get the module names by removing `single{` and terminates on the first open parenthesis.
+     * get the module names by removing `single{` and `viewModel{` and terminates on the first open parenthesis.
      * 
      * input array: ['single{componentA(get(), get())}', 'single{componentB(get(),get())}']
      * output array: ['componentA', 'componentB']
      */
     let moduleFiles = []
-    for (var i in singles) {
-      let single = singles[i].replace('single{', '') // remove `single{`.
+    for (var i in modules) {
+      let single = modules[i].replace('single{', '').replace('viewModel{', '') // remove `single{` and `viewModel{`.
       moduleFiles.push(single.match(/[^(]+(?:(?!\().)/)[0]) // get word up until first open parenthesis.
     }
 
