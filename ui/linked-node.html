@@ -35,7 +35,7 @@
     .force('link', d3.forceLink()
       .id(link => link.id)
       .distance(link => link.strength * 500)
-      .strength(link => 0.1))
+      .strength(link => 0))
     .force('charge', d3.forceManyBody())
     .force('center', d3.forceCenter(width / 2, height / 2))
 
