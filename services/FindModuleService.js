@@ -12,8 +12,8 @@ class FindModuleService {
      * output array: ['single{componentA(get(), get())}', 'single{componentB(get(),get())}']
      */
     let minifiedFile = this.getFileContents(file)
-    let singles = minifiedFile.match(/single\{((?!single).)*\(((?!single).)*\)\}/g)
-    let viewModels = minifiedFile.match(/viewModel\{((?!viewModel).)*\(((?!viewModel).)*\)\}/g)
+    let singles = minifiedFile.match(/single\{((?!single).)*\(((?!single).)*\)/g)
+    let viewModels = minifiedFile.match(/viewModel\{((?!viewModel).)*\(((?!viewModel).)*\)/g)
 
     let modules = []
     if (viewModels) {
