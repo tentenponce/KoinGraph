@@ -25,7 +25,9 @@ class KoinGraphService {
       let dependencies = this.getModuleDependencies(module)
 
       // register module to the graph and its dependencies
-      graph[module] = dependencies
+      if (dependencies.length > 0) {
+        graph[module] = dependencies
+      }
 
       // register dependencies on the graph if they not exist
       for (var k in dependencies) {
@@ -50,6 +52,8 @@ class KoinGraphService {
         return this.findModuleService.getClassDependencies(file)
       }
     }
+
+    return []
   }
 
   /**
