@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  .node {
+    cursor: pointer;
+  }
+
+  .node:hover {
+    stroke: black;
+    stroke-width: 0.5px;
+  }
+
+  .node--leaf {
+    fill: white;
+  }
+
+  .label {
+    font: 13px sans-serif;
+    text-anchor: middle;
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+  }
+</style>
+<svg width="960" height="960"></svg>
+<script type="text/javascript" src="koin-graph.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+  var svg = d3.select("svg")
+  var margin = 20
+  var diameter = +svg.attr("width")
+  var g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
+
+  var color = d3.scaleLinear()
+    .domain([-1, 5])
+    .range(["hsl(152,80%,80%)", "hsl(220,30%,40%)"])
+    .interpolate(d3.interpolateHcl)
+
+  var pack = d3.pack()
+    .size([diameter - margin, diameter - margin])
+    .padding(2)
+
+  root = bubbleData
+  root = d3.hierarchy(root)
+    .sum(d => d.size)
+    .sort((a, b) => b.value - a.value)
+
+  var focus = root
+  var nodes = pack(root).descendants()
+  var view
+
+  var circle = g.selectAll("circle")
+    .data(nodes)
+    .enter().append("circle")
+    .attr("class", d => d.parent ? d.children ? "node" : "node node--leaf" : "node node--root")
+    .style("fill", d => d.children ? color(d.depth) : null)
+    .on("click", d => { if (focus !== d) zoom(d), d3.event.stopPropagation() })
+
+  var text = g.selectAll("text")
+    .data(nodes)
+    .enter().append("text")
+    .attr("class", "label")
+    .attr('text-anchor', 'middle')
+    .style("fill-opacity", d => d.parent === root ? 1 : 0)
+    .style("display", d => d.parent === root ? "inline" : "none")
+    .text(d => d.data.name)
+
+  var node = g.selectAll("circle,text")
+  svg.style("background", color(-1))
+    .on("click", () => zoom(root))
+
+  zoomTo([root.x, root.y, root.r * 2 + margin])
+
+  function zoom(d) {
+    var focus0 = focus
+    focus = d
+    var transition = d3.transition()
+      .duration(d3.event.altKey ? 7500 : 750)
+      .tween("zoom", d => {
+        var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin])
+        return t => zoomTo(i(t))
+      })
+    transition.selectAll("text")
+      .filter(d => d.parent === focus || this.style.display === "inline")
+      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+      .on("start", d => { if (d.parent === focus) this.style.display = "inline" })
+      .on("end", d => { if (d.parent !== focus) this.style.display = "none" })
+  }
+
+  function zoomTo(v) {
+    var k = diameter / v[2]
+    view = v
+    node.attr("transform", d => "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")")
+    circle.attr("r", d => d.r * k)
+  }
+</script>
