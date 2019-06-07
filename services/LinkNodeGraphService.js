@@ -1,11 +1,14 @@
-const fs = require('fs')
-
 class D3GraphService {
 
   constructor(graph) {
     this.graph = graph
+  }
 
-    fs.writeFileSync('ui/koin-graph.js', '')
+  build() {
+    return {
+      nodes: this.buildNodes(),
+      links: this.buildLinks()
+    }
   }
 
   buildNodes() {
@@ -22,7 +25,7 @@ class D3GraphService {
       nodes.push(node)
     }
 
-    fs.appendFileSync('ui/koin-graph.js', 'var nodes = ' + JSON.stringify(nodes, null, 2));
+    return nodes
   }
 
   buildLinks() {
@@ -42,7 +45,7 @@ class D3GraphService {
       }
     }
 
-    fs.appendFileSync('ui/koin-graph.js', '\nvar links = ' + JSON.stringify(links, null, 2));
+    return links
   }
 
   /**
