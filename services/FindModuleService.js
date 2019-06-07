@@ -61,7 +61,7 @@ class FindModuleService {
      * output: ['dependencyA: DependencyA', 'dependencyB: DependencyB']
      */
     let rawDependencies
-    if (className[0].indexOf('(') > 0) {
+    if (className && className[0].indexOf('(') > 0) {
       rawDependencies = className[0].replace(/class.+\(/g, '').split(',')
     } else {
       rawDependencies = []
