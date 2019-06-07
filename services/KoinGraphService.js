@@ -1,5 +1,4 @@
 const FindModuleService = require('./FindModuleService')
-const KoinModule = require('../models/KoinModule')
 const fileHound = require('filehound')
 
 class KoinGraphService {

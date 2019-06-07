@@ -1,6 +1,6 @@
 const ParameterService = require('./services/ParameterService')
 const KoinGraphService = require('./services/KoinGraphService')
-const D3GraphService = require('./services/D3GraphService')
+const LinkNodeGraphService = require('./services/LinkNodeGraphService')
 
 /* get path and graph format */
 let paramService = new ParameterService()
@@ -11,7 +11,11 @@ let koinGraphService = new KoinGraphService(param)
 let graph = koinGraphService.buildGraph()
 
 /* show ui graph */
-let d3GraphService = new D3GraphService(graph)
+if (param.graph == 'tree') {
 
-d3GraphService.buildNodes()
-d3GraphService.buildLinks()
+} else {
+  let linkNodeGraphService = new LinkNodeGraphService(graph)
+
+  linkNodeGraphService.buildNodes()
+  linkNodeGraphService.buildLinks()
+}
