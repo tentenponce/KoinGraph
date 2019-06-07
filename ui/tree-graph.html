@@ -1,16 +1,5 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
-  .node {
-    cursor: pointer
-  }
-
-  .node circle {
-    fill: #fff;
-    stroke: blue;
-    stroke-width: 1px;
-  }
-</style>
 
 <body>
   <script type="text/javascript" src="koin-graph.js"></script>
@@ -61,7 +50,10 @@
         .on("click", click)
       nodeEnter.append("circle")
         .attr("r", 1e-6)
-        .style("fill", function (d) { return d._children ? "lightsteelblue" : "#fff" })
+        .attr('cursor', 'pointer')
+        .attr('stroke', 'blue')
+        .attr('stroke-width', '1')
+        .style("fill", function (d) { return d._children ? "blue" : "#fff" })
       nodeEnter.append("text")
         .attr("x", function (d) { return d.children || d._children ? -10 : 10 })
         .attr("dy", ".35em")

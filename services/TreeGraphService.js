@@ -4,8 +4,8 @@ class TreeGraphService {
     this.graph = graph
   }
 
-  buildTree() {
-    let levels = this.buildLevels()
+  build() {
+    let rootModules = this.getRootModules()
 
     let tree = {
       name: 'Dependencies',
@@ -16,14 +16,11 @@ class TreeGraphService {
     }
 
     // push level 0 modules initially
-    for (var i in levels[0]) {
-      let moduleName = levels[0][i]
+    for (var i in rootModules) {
+      let moduleName = rootModules[i]
 
       tree.children.push({
         name: moduleName,
-        value: 15,
-        type: 'red',
-        level: 'blue',
         children: []
       })
     }
@@ -56,60 +53,37 @@ class TreeGraphService {
         }
       }
 
-      children.push(child)      
+      children.push(child)
     }
 
     return children
   }
 
-  buildLevels() {
-    let levels = []
+  getRootModules() {
+    let rootModules = []
+
     for (var i in this.graph) {
-      let moduleLevel = this.getModuleLevel(i, 0)
-
-      if (!levels[moduleLevel]) {
-        levels[moduleLevel] = []
-      }
-
-      let currentLevel = this.getCurrentLevel(levels, i)
-      if (currentLevel.level >= 0 &&
-        moduleLevel > currentLevel.level) {
-        levels[currentLevel.level].splice(currentLevel.index, 1) // remove it to its current level
-      }
-
-      levels[moduleLevel].push(i)
-    }
-
-    return levels
-  }
-
-  getCurrentLevel(levels, moduleName) {
-    for (var i in levels) {
-      let level = levels[i]
-
-      for (var j in level) {
-        if (level[j] == moduleName) {
-          return { level: i, index: j }
-        }
+      if (!this.isDependency(i)) {
+        rootModules.push(i)
       }
     }
 
-    return { level: -1, index: -1 }
+    return rootModules
   }
 
-  getModuleLevel(moduleName, currentLevel) {
+  isDependency(moduleName) {
     for (var i in this.graph) {
       let dependencies = this.graph[i]
       for (var j in dependencies) {
         let dependency = dependencies[j]
 
         if (dependency == moduleName) {
-          return this.getModuleLevel(i, ++currentLevel)
+          return true
         }
       }
     }
 
-    return currentLevel
+    return false
   }
 }
 

@@ -22,8 +22,8 @@
     return "00000".substring(0, 6 - c.length) + c
   }
 
-  var width = links.length * 15
-  var height = links.length * 15
+  var width = links.length * 10
+  var height = links.length * 5
 
   // set canvas
   var svg = d3.select('svg')
@@ -35,7 +35,7 @@
     .force('link', d3.forceLink()
       .id(link => link.id)
       .distance(link => link.strength * 500)
-      .strength(link => 0))
+      .strength(link => 0.1))
     .force('charge', d3.forceManyBody())
     .force('center', d3.forceCenter(width / 2, height / 2))
 

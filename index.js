@@ -1,4 +1,6 @@
 const fs = require('fs')
+const opn = require('opn')
+const path = require('path')
 
 const ParameterService = require('./services/ParameterService')
 const KoinGraphService = require('./services/KoinGraphService')
@@ -17,8 +19,9 @@ let graph = koinGraphService.buildGraph()
 if (param.graph == 'tree') {
   let treeGraphService = new TreeGraphService(graph)
 
-  let tree = treeGraphService.buildTree()
+  let tree = treeGraphService.build()
   fs.writeFileSync('ui/koin-graph.js', 'var treeData = ' + JSON.stringify(tree, null, 2))
+  opn(path.resolve('ui/tree-graph.html'))
 } else {
   let linkNodeGraphService = new LinkNodeGraphService(graph)
 
@@ -27,4 +30,5 @@ if (param.graph == 'tree') {
   fs.writeFileSync('ui/koin-graph.js', '')
   fs.appendFileSync('ui/koin-graph.js', 'var nodes = ' + JSON.stringify(linkNodeGraph.nodes, null, 2))
   fs.appendFileSync('ui/koin-graph.js', '\nvar links = ' + JSON.stringify(linkNodeGraph.links, null, 2))
+  opn(path.resolve('ui/link-node-graph.html'))
 }
