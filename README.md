@@ -14,7 +14,7 @@ TODO
 TODO
 
 # Limitations (To Do)
-- Classes that are registered with aliases
+- Modules that are registered with aliases
 - Reflection
 
 # Inspirations
