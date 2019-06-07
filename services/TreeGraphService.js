@@ -9,13 +9,12 @@ class TreeGraphService {
 
     let tree = {
       name: 'Dependencies',
-      value: 15,
-      type: 'red',
-      level: 'blue',
       children: []
     }
 
-    // push level 0 modules initially
+    /**
+     * add roots
+     */
     for (var i in rootModules) {
       let moduleName = rootModules[i]
 
@@ -25,7 +24,7 @@ class TreeGraphService {
       })
     }
 
-    // get children of children of children...
+    // get children of roots, and children of children...
     for (var i in tree.children) {
       let child = tree.children[i]
 
@@ -35,6 +34,10 @@ class TreeGraphService {
     return tree
   }
 
+  /**
+   * get children of children
+   * @param moduleName module to check its dependencies
+   */
   getChildren(moduleName) {
     let children = []
 
@@ -47,6 +50,9 @@ class TreeGraphService {
         children: this.getChildren(dependency)
       }
 
+      /**
+       * if no child, remove children node
+       */
       if (child.children.length <= 0) {
         child = {
           name: dependency
@@ -59,6 +65,9 @@ class TreeGraphService {
     return children
   }
 
+  /**
+   * get all modules that is not a dependency (it means that is a root)
+   */
   getRootModules() {
     let rootModules = []
 
