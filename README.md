@@ -14,7 +14,6 @@ TODO
 TODO
 
 # Limitations (To Do)
-- Modules that are registered with aliases
 - Reflection
 
 # Inspirations
