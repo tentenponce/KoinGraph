@@ -1,52 +1,60 @@
 const fs = require('fs')
 const opn = require('opn')
 const path = require('path')
+const fileHound = require('filehound')
 
-const ParameterService = require('./services/ParameterService')
-const FileSystemService = require('./services/FileSystemService')
-const KoinGraphService = require('./services/KoinGraphService')
-const LinkNodeGraphService = require('./services/LinkNodeGraphService')
-const TreeGraphService = require('./services/TreeGraphService')
-const BubbleGraphService = require('./services/BubbleGraphService')
-const FindModuleService = require('./services/FindModuleService')
+const FileSystemBridge = require('./data/FileSystemBridge')
 
-/* init dependencies */
-let fileSystemService = new FileSystemService()
-let findModuleService = new FindModuleService()
+const DependencyReaderHelper = require('./domain/DependencyReaderHelper')
+const KoinGraphService = require('./domain/KoinGraphService')
 
-/* get path and graph format */
-let paramService = new ParameterService()
-let param = paramService.getParameters()
+const LinkNodeGraphMapper = require('./ui/linknode/LinkNodeGraphMapper')
+const TreeGraphMapper = require('./ui/tree/TreeGraphMapper')
+const BubbleGraphMapper = require('./ui/bubble/BubbleGraphMapper')
+
+/* read parameters */
+let args = require('minimist')(process.argv.slice(2))
+
+let projectPath = args['path']
+let graph = args['graph']
+
+/**
+ * get all kotlin files from the project path.
+ */
+let projectFiles = fileHound.create()
+  .paths(projectPath)
+  .ext('kt')
+  .findSync()
 
 /* build json graph */
-let koinGraphService = new KoinGraphService(fileSystemService.getKotlinFiles(param.path), findModuleService, fileSystemService)
-let graph = koinGraphService.buildGraph()
+let koinGraphService = new KoinGraphService(new FileSystemBridge(), new DependencyReaderHelper())
+let jsonGraph = koinGraphService.buildGraph(projectFiles)
 
 /* show ui graph */
-switch (param.graph) {
+switch (graph) {
   case 'tree':
-    let treeGraphService = new TreeGraphService(graph)
+    let treeGraphMapper = new TreeGraphMapper(jsonGraph)
 
-    let tree = treeGraphService.build()
-    fs.writeFileSync('ui/koin-graph.js', 'var treeData = ' + JSON.stringify(tree, null, 2))
-    opn(path.resolve('ui/tree-graph.html'))
+    let tree = treeGraphMapper.toTreeGraph()
+    fs.writeFileSync('ui/tree/koin-graph.js', 'var treeData = ' + JSON.stringify(tree, null, 2))
+    opn(path.resolve('ui/tree/tree-graph.html'))
     break
   case 'bubble':
-    let bubbleGraphService = new BubbleGraphService(graph)
+    let bubbleGraphMapper = new BubbleGraphMapper(jsonGraph)
 
-    let bubble = bubbleGraphService.build()
-    fs.writeFileSync('ui/koin-graph.js', 'var bubbleData = ' + JSON.stringify(bubble, null, 2))
-    opn(path.resolve('ui/bubble-graph.html'))
+    let bubble = bubbleGraphMapper.toBubbleGraph()
+    fs.writeFileSync('ui/bubble/koin-graph.js', 'var bubbleData = ' + JSON.stringify(bubble, null, 2))
+    opn(path.resolve('ui/bubble/bubble-graph.html'))
     break
   case 'link-node':
-    let linkNodeGraphService = new LinkNodeGraphService(graph)
+    let linkNodeGraphMapper = new LinkNodeGraphMapper(jsonGraph)
 
-    let linkNodeGraph = linkNodeGraphService.build()
+    let linkNodeGraph = linkNodeGraphMapper.toLinkNodeGraph()
 
-    fs.writeFileSync('ui/koin-graph.js', '')
-    fs.appendFileSync('ui/koin-graph.js', 'var nodes = ' + JSON.stringify(linkNodeGraph.nodes, null, 2))
-    fs.appendFileSync('ui/koin-graph.js', '\nvar links = ' + JSON.stringify(linkNodeGraph.links, null, 2))
-    opn(path.resolve('ui/link-node-graph.html'))
+    fs.writeFileSync('ui/linknode/koin-graph.js', '')
+    fs.appendFileSync('ui/linknode/koin-graph.js', 'var nodes = ' + JSON.stringify(linkNodeGraph.nodes, null, 2))
+    fs.appendFileSync('ui/linknode/koin-graph.js', '\nvar links = ' + JSON.stringify(linkNodeGraph.links, null, 2))
+    opn(path.resolve('ui/linknode/link-node-graph.html'))
     break
   default:
     console.log('Please specify graph by using --graph parameter')

@@ -1,9 +1,9 @@
 const expect = require('chai').expect
 const sinon = require('sinon')
 
-const FindModuleService = require('../../services/FindModuleService')
+const DependencyReaderHelper = require('../../domain/DependencyReaderHelper')
 
-const service = new FindModuleService()
+const helper = new DependencyReaderHelper()
 
 describe('getModules()', () => {
   it('should return modules with dependencies', () => {
@@ -13,7 +13,7 @@ describe('getModules()', () => {
       viewModel { ViewModelA(get(), get(), get(), get()) }
     `
 
-    expect(service.getModules(fileContent)).to.include.members(['ComponentA', 'ComponentB', 'ViewModelA'])
+    expect(helper.getModulesFromFile(fileContent)).to.include.members(['ComponentA', 'ComponentB', 'ViewModelA'])
   })
 
   it('should return modules without dependencies', () => {
@@ -24,7 +24,7 @@ describe('getModules()', () => {
       viewModel { ViewModelB() }
     `
 
-    expect(service.getModules(fileContent)).to.include.members(['ComponentA', 'ComponentB', 'ViewModelA', 'ViewModelB'])
+    expect(helper.getModulesFromFile(fileContent)).to.include.members(['ComponentA', 'ComponentB', 'ViewModelA', 'ViewModelB'])
   })
 })
 
@@ -39,7 +39,7 @@ describe('getClassDependencies()', () => {
       }
     `
 
-    expect(service.getClassDependencies(fileContent)).to.include.members(['DependencyA', 'DependencyB'])
+    expect(helper.getDependenciesFromFile(fileContent)).to.include.members(['DependencyA', 'DependencyB'])
   })
 
   it('should return empty array of dependencies if class has none', () => {
@@ -52,6 +52,6 @@ describe('getClassDependencies()', () => {
       }
     `
 
-    expect(service.getClassDependencies(fileContent)).to.deep.equal([])
+    expect(helper.getDependenciesFromFile(fileContent)).to.deep.equal([])
   })
 })

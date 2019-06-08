@@ -1,8 +1,6 @@
-const fs = require('fs')
+class DependencyReaderHelper {
 
-class FindModuleService {
-
-  getModules(fileContent) {
+  getModulesFromFile(fileContent) {
     /**
      * get array of single{...} and viewModel{...} from the minified file.
      * 
@@ -39,7 +37,7 @@ class FindModuleService {
     return moduleFiles
   }
 
-  getClassDependencies(fileContent) {
+  getDependenciesFromFile(fileContent) {
     /**
      * get class name with its dependencies.
      * 
@@ -93,4 +91,4 @@ class FindModuleService {
   }
 }
 
-module.exports = FindModuleService
+module.exports = DependencyReaderHelper

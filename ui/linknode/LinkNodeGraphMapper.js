@@ -1,10 +1,10 @@
-class D3GraphService {
+class LinkNodeGraphMapper {
 
   constructor(graph) {
     this.graph = graph
   }
 
-  build() {
+  toLinkNodeGraph() {
     return {
       nodes: this.buildNodes(),
       links: this.buildLinks()
@@ -61,4 +61,4 @@ class D3GraphService {
   }
 }
 
-module.exports = D3GraphService
+module.exports = LinkNodeGraphMapper

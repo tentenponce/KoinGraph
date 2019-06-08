@@ -1,10 +1,10 @@
-class BubbleGraphService {
+class BubbleGraphMapper {
 
   constructor(graph) {
     this.graph = graph
   }
 
-  build() {
+  toBubbleGraph() {
     let rootModules = this.getRootModules()
 
     let bubble = {
@@ -98,4 +98,4 @@ class BubbleGraphService {
   }
 }
 
-module.exports = BubbleGraphService
+module.exports = BubbleGraphMapper

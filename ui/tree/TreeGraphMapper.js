@@ -1,10 +1,10 @@
-class TreeGraphService {
+class TreeGraphMapper {
 
   constructor(graph) {
     this.graph = graph
   }
 
-  build() {
+  toTreeGraph() {
     let rootModules = this.getRootModules()
 
     let tree = {
@@ -96,4 +96,4 @@ class TreeGraphService {
   }
 }
 
-module.exports = TreeGraphService
+module.exports = TreeGraphMapper
