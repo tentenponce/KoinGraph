@@ -6,17 +6,7 @@ const DependencyReaderHelper = require('../../domain/DependencyReaderHelper')
 const helper = new DependencyReaderHelper()
 
 describe('getModules()', () => {
-  it('should return modules with dependencies', () => {
-    let fileContent = `
-      single { ComponentA(get(), get()) }
-      single { ComponentB(get(), get(), get(), get()) }
-      viewModel { ViewModelA(get(), get(), get(), get()) }
-    `
-
-    expect(helper.getModulesFromFile(fileContent)).to.include.members(['ComponentA', 'ComponentB', 'ViewModelA'])
-  })
-
-  it('should return modules without dependencies', () => {
+  it('should return modules with or without dependencies', () => {
     let fileContent = `
       single { ComponentA(get(), get()) }
       single { ComponentB() }
@@ -25,6 +15,17 @@ describe('getModules()', () => {
     `
 
     expect(helper.getModulesFromFile(fileContent)).to.include.members(['ComponentA', 'ComponentB', 'ViewModelA', 'ViewModelB'])
+  })
+
+  it('should return aliases', () => {
+    let fileContent = `
+      single { ComponentA(get(), get()) as ComponentAlias }
+      single { ComponentB() }
+      viewModel { ViewModelA(get(), get(), get(), get()) }
+      viewModel { ViewModelB() }
+    `
+
+    expect(helper.getModulesFromFile(fileContent)).to.include.members(['ComponentAlias', 'ComponentB', 'ViewModelA', 'ViewModelB'])
   })
 })
 
