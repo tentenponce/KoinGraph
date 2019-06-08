@@ -8,7 +8,8 @@ Graph generator for android projects using Koin
   - List of graphs: `bubble`, `tree`, `link-node`
   
 # Running Tests
-TODO
+`npm test`
+- this will run all tests on `/test` folder
 
 # How to Contribute
 TODO
