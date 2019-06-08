@@ -1,6 +1,13 @@
 # KoinGraph
 Graph generator for android projects using Koin
 
+### KoinGraph in Action
+<div align="center">
+  <img height="200" src="img/tree-graph.PNG" />
+  <img height="200" src="img/bubble-graph.PNG" />
+  <img height="200" src="img/link-node-graph.PNG" />
+</div>
+
 # How to use
 - clone this repository
 - type `npm install`
