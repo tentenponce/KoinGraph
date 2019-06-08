@@ -20,12 +20,12 @@ describe('getModules()', () => {
   it('should return aliases', () => {
     let fileContent = `
       single { ComponentA(get(), get()) as ComponentAlias }
-      single { ComponentB() }
+      single<ComponentBAlias> { ComponentB() }
       viewModel { ViewModelA(get(), get(), get(), get()) }
       viewModel { ViewModelB() }
     `
 
-    expect(helper.getModulesFromFile(fileContent)).to.include.members(['ComponentAlias', 'ComponentB', 'ViewModelA', 'ViewModelB'])
+    expect(helper.getModulesFromFile(fileContent)).to.include.members(['ComponentAlias', 'ComponentBAlias', 'ViewModelA', 'ViewModelB'])
   })
 })
 

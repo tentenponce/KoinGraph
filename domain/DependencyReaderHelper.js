@@ -12,17 +12,7 @@ class DependencyReaderHelper {
      * output array: ['single{componentA(get(), get())}', 'single{componentB(get(),get())}']
      */
     let minifiedFile = MinifierUtil.minifyString(fileContent)
-    let singles = minifiedFile.match(/single\{((?!single\{).)*\(((?!single).)*\}/g)
-    let viewModels = minifiedFile.match(/viewModel\{((?!viewModel\{).)*\(((?!viewModel).)*\}/g)
-
-    let modules = []
-    if (viewModels) {
-      modules = modules.concat(viewModels)
-    }
-
-    if (singles) {
-      modules = modules.concat(singles)
-    }
+    let modules = minifiedFile.match(/(single|viewModel)((?!(single|viewModel)).)*\(((?!(single|viewModel)).)*\}/g)
 
     /**
      * get the module names by removing `single{` and `viewModel{` and terminates on the first open parenthesis.
@@ -42,7 +32,12 @@ class DependencyReaderHelper {
         let moduleNode = moduleName.replace('single{', '').replace('viewModel{', '') // remove `single{` and `viewModel{`.
         moduleFiles.push(moduleNode.match(/[^(]+(?:(?!\().)/)[0]) // get word up until first open parenthesis.
       } else {
-        moduleFiles.push(moduleName.substring(moduleName.lastIndexOf(')') + 3, moduleName.length - 1))
+        /* extract alias */
+        if (moduleName.indexOf('single<') >= 0 || moduleName.indexOf('viewModel<') >= 0) { // if alias is within <>
+          moduleFiles.push(moduleName.substring(moduleName.indexOf('<') + 1, moduleName.indexOf('>')))
+        } else { // if alias is at the end. eg: ComponentA() as ComponentAlias
+          moduleFiles.push(moduleName.substring(moduleName.lastIndexOf(')') + 3, moduleName.length - 1))
+        }
       }
     }
 
@@ -99,7 +94,9 @@ class DependencyReaderHelper {
   }
 
   isAlias(rawModule) {
-    return rawModule.slice(-2) != ')}'
+    return rawModule.slice(-2) != ')}' ||
+      rawModule.indexOf('single<') >= 0 ||
+      rawModule.indexOf('viewModel<') >= 0
   }
 }
 
