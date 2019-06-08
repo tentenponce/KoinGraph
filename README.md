@@ -29,4 +29,4 @@ TODO
 - [daggraph](https://github.com/dvdciri/daggraph) - Graphs are heavily inspired in this project
 
 # Author
-Exequiel Egbert V. Ponce, poncetenten10@gmail.com, +63 916 349 5393
+Exequiel Egbert V. Ponce, poncetenten10@gmail.com
