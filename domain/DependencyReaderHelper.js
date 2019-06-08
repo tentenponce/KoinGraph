@@ -1,3 +1,5 @@
+const MinifierUtil = require('./MinifierUtil')
+
 class DependencyReaderHelper {
 
   getModulesFromFile(fileContent) {
@@ -9,8 +11,9 @@ class DependencyReaderHelper {
      * input minified file content: ...single{componentA(get(), get())}single{componentB(get(),get())}...
      * output array: ['single{componentA(get(), get())}', 'single{componentB(get(),get())}']
      */
-    let singles = fileContent.match(/single\{((?!single\{).)*\(((?!single).)*\}/g)
-    let viewModels = fileContent.match(/viewModel\{((?!viewModel\{).)*\(((?!viewModel).)*\}/g)
+    let minifiedFile = MinifierUtil.minifyString(fileContent)
+    let singles = minifiedFile.match(/single\{((?!single\{).)*\(((?!single).)*\}/g)
+    let viewModels = minifiedFile.match(/viewModel\{((?!viewModel\{).)*\(((?!viewModel).)*\}/g)
 
     let modules = []
     if (viewModels) {
@@ -58,7 +61,7 @@ class DependencyReaderHelper {
      * input without dependency: import....classComponentA{....
      * output : classComponentA
      */
-    let className = fileContent.match(/class[^{)]+/)
+    let className = MinifierUtil.minifyString(fileContent).match(/class[^{)]+/)
 
     /** 
      * remove the class name to get dependencies only and split it.

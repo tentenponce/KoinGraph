@@ -44,6 +44,9 @@ class TreeGraphMapper {
     let dependencies = this.graph[moduleName]
     for (var i in dependencies) {
       let dependency = dependencies[i]
+      if (dependency == moduleName) { // avoid forever loop if dependency is the same with module name
+        continue
+      }
 
       let child = {
         name: dependency,

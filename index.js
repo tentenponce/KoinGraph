@@ -7,7 +7,6 @@ const FileSystemBridge = require('./data/FileSystemBridge')
 
 const KoinGraphService = require('./domain/KoinGraphService')
 const DependencyReaderHelper = require('./domain/DependencyReaderHelper')
-const MinifierHelper = require('./domain/MinifierHelper')
 const ClassCastHelper = require('./domain/ClassCastHelper')
 
 const LinkNodeGraphMapper = require('./ui/linknode/LinkNodeGraphMapper')
@@ -31,7 +30,6 @@ let projectFiles = fileHound.create()
 /* build json graph */
 let koinGraphService = new KoinGraphService(new FileSystemBridge(),
   new DependencyReaderHelper(),
-  new MinifierHelper(),
   new ClassCastHelper())
 let jsonGraph = koinGraphService.buildGraph(projectFiles)
 

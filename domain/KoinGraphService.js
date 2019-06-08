@@ -2,11 +2,9 @@ class KoinGraphService {
 
   constructor(fileSystemBridge,
     dependencyReaderHelper,
-    minifierHelper,
     classCastHelper) {
     this.fileSystemBridge = fileSystemBridge
     this.dependencyReaderHelper = dependencyReaderHelper
-    this.minifierHelper = minifierHelper
     this.classCastHelper = classCastHelper
   }
 
@@ -43,7 +41,7 @@ class KoinGraphService {
     let modules = []
     for (var i in projFiles) {
       let file = projFiles[i]
-      let fileContent = this.minifierHelper.minifyString(this.fileSystemBridge.readFile(file))
+      let fileContent = this.fileSystemBridge.readFile(file)
       modules = modules.concat(this.dependencyReaderHelper.getModulesFromFile(fileContent))
     }
 
@@ -55,7 +53,7 @@ class KoinGraphService {
     for (var j in projFiles) {
       let file = projFiles[j]
 
-      let fileContent = this.minifierHelper.minifyString(this.fileSystemBridge.readFile(file))
+      let fileContent = this.fileSystemBridge.readFile(file)
 
       if (file.indexOf(moduleName + '.kt') >= 0 ||
         this.classCastHelper.isClassCast(fileContent, moduleName)) {
