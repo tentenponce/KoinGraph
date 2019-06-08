@@ -2,7 +2,7 @@ const fs = require('fs')
 
 class FindModuleService {
 
-  getModules(file) {
+  getModules(fileContent) {
     /**
      * get array of single{...} and viewModel{...} from the minified file.
      * 
@@ -11,9 +11,9 @@ class FindModuleService {
      * input minified file content: ...single{componentA(get(), get())}single{componentB(get(),get())}...
      * output array: ['single{componentA(get(), get())}', 'single{componentB(get(),get())}']
      */
-    let minifiedFile = this.getFileContents(file)
-    let singles = minifiedFile.match(/single\{((?!single).)*\(((?!single).)*\)/g)
-    let viewModels = minifiedFile.match(/viewModel\{((?!viewModel).)*\(((?!viewModel).)*\)/g)
+    let minifiedFile = this.minifyFileContent(fileContent)
+    let singles = minifiedFile.match(/single\{((?!single\{).)*\(((?!single).)*\)/g)
+    let viewModels = minifiedFile.match(/viewModel\{((?!viewModel\{).)*\(((?!viewModel).)*\)/g)
 
     let modules = []
     if (viewModels) {
@@ -39,7 +39,7 @@ class FindModuleService {
     return moduleFiles
   }
 
-  getClassDependencies(file) {
+  getClassDependencies(fileContent) {
     /**
      * get class name with its dependencies.
      * 
@@ -51,7 +51,7 @@ class FindModuleService {
      * input without dependency: import....classComponentA{....
      * output : classComponentA
      */
-    let className = this.getFileContents(file).match(/class[^{)]+/)
+    let className = this.minifyFileContent(fileContent).match(/class[^{)]+/)
 
     /** 
      * remove the class name to get dependencies only and split it.
@@ -88,9 +88,8 @@ class FindModuleService {
     return dependencies
   }
 
-  getFileContents(file) {
-    let contents = fs.readFileSync(file, 'utf8') // read file
-    return contents.replace(/\s/g, '') // minify file
+  minifyFileContent(fileContent) {
+    return fileContent.replace(/\s/g, '')
   }
 }
 

@@ -24,16 +24,14 @@
 <script type="text/javascript" src="koin-graph.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
-  var svg = d3.select("svg")
-  var margin = 20
-  var diameter = +svg.attr("width")
-  var g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
-
+  var svg = d3.select("svg"),
+    margin = 20,
+    diameter = +svg.attr("width"),
+    g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
   var color = d3.scaleLinear()
     .domain([-1, 5])
-    .range(["hsl(152,80%,80%)", "hsl(220,30%,40%)"])
+    .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
     .interpolate(d3.interpolateHcl)
-
   var pack = d3.pack()
     .size([diameter - margin, diameter - margin])
     .padding(2)
@@ -58,11 +56,9 @@
     .data(nodes)
     .enter().append("text")
     .attr("class", "label")
-    .attr('text-anchor', 'middle')
     .style("fill-opacity", d => d.parent === root ? 1 : 0)
     .style("display", d => d.parent === root ? "inline" : "none")
     .text(d => d.data.name)
-
   var node = g.selectAll("circle,text")
   svg.style("background", color(-1))
     .on("click", () => zoom(root))
@@ -76,13 +72,13 @@
       .duration(d3.event.altKey ? 7500 : 750)
       .tween("zoom", d => {
         var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin])
-        return t => zoomTo(i(t))
+        return function (t) { zoomTo(i(t)) }
       })
     transition.selectAll("text")
-      .filter(d => d.parent === focus || this.style.display === "inline")
+      .filter(function (d) { return d.parent === focus || this.style.display === "inline" })
       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-      .on("start", d => { if (d.parent === focus) this.style.display = "inline" })
-      .on("end", d => { if (d.parent !== focus) this.style.display = "none" })
+      .on("start", function (d) { if (d.parent === focus) this.style.display = "inline" })
+      .on("end", function (d) { if (d.parent !== focus) this.style.display = "none" })
   }
 
   function zoomTo(v) {
@@ -91,4 +87,5 @@
     node.attr("transform", d => "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")")
     circle.attr("r", d => d.r * k)
   }
+
 </script>

@@ -1,12 +1,9 @@
-const FindModuleService = require('./FindModuleService')
-const fileHound = require('filehound')
-
 class KoinGraphService {
 
-  constructor(param) {
-    this.param = param
-    this.findModuleService = new FindModuleService()
-    this.projFiles = this.getKotlinFiles()
+  constructor(projFiles, findModuleService, fileSystemService) {
+    this.projFiles = projFiles
+    this.findModuleService = findModuleService
+    this.fileSystemService = fileSystemService
   }
 
   buildGraph() {
@@ -15,7 +12,8 @@ class KoinGraphService {
     let modules = []
     for (var i in this.projFiles) {
       let file = this.projFiles[i]
-      modules = modules.concat(this.findModuleService.getModules(file))
+      let fileContent = this.fileSystemService.readFile(file)
+      modules = modules.concat(this.findModuleService.getModules(fileContent))
     }
 
     /* get dependencies of each module and build graph */
@@ -49,21 +47,12 @@ class KoinGraphService {
 
       if (file.indexOf(moduleName + '.kt') >= 0) {
         // get the dependencies of the module
-        return this.findModuleService.getClassDependencies(file)
+        let fileContent = this.fileSystemService.readFile(file)
+        return this.findModuleService.getClassDependencies(fileContent)
       }
     }
 
     return []
-  }
-
-  /**
-   * get all kotlin files from the project path.
-   */
-  getKotlinFiles() {
-    return fileHound.create()
-      .paths(this.param.path)
-      .ext('kt')
-      .findSync()
   }
 }
 

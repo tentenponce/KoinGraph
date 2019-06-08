@@ -3,17 +3,23 @@ const opn = require('opn')
 const path = require('path')
 
 const ParameterService = require('./services/ParameterService')
+const FileSystemService = require('./services/FileSystemService')
 const KoinGraphService = require('./services/KoinGraphService')
 const LinkNodeGraphService = require('./services/LinkNodeGraphService')
 const TreeGraphService = require('./services/TreeGraphService')
 const BubbleGraphService = require('./services/BubbleGraphService')
+const FindModuleService = require('./services/FindModuleService')
+
+/* init dependencies */
+let fileSystemService = new FileSystemService()
+let findModuleService = new FindModuleService()
 
 /* get path and graph format */
 let paramService = new ParameterService()
 let param = paramService.getParameters()
 
 /* build json graph */
-let koinGraphService = new KoinGraphService(param)
+let koinGraphService = new KoinGraphService(fileSystemService.getKotlinFiles(param.path), findModuleService, fileSystemService)
 let graph = koinGraphService.buildGraph()
 
 /* show ui graph */
