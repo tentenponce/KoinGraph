@@ -6,10 +6,10 @@ cache:
     - "node_modules"
 jobs:
   include:
-    - stage: Run Lint
-      script: npm run lint
-    - stage: Run Tests
-      script: npm test
+    - stage: Run Lint and Tests
+      script: 
+        - npm run lint
+        - npm run test
     - stage: Publish on NPM
       script: npm publish
       on:
