@@ -7,4 +7,8 @@ cache:
 script:
   - npm run lint
   - npm test
-  - if [ "$TRAVIS_BRANCH" = "master" ]; then npm publish
+branches:
+  only:
+    - master
+  script:
+    - npm publish
