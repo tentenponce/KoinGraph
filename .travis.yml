@@ -10,7 +10,9 @@ jobs:
       script: 
         - npm run lint
         - npm run test
-    - stage: Publish on NPM
-      script: npm publish
-      on:
-        branch: master
+      deploy:
+        provider: npm
+        email: $NPM_EMAIL
+        api_key: $NPM_API_KEY
+        on:
+          branch: master
