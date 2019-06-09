@@ -3,9 +3,9 @@ Graph generator for android projects using [Koin](https://github.com/InsertKoinI
 
 ### KoinGraph in Action
 <div align="center">
-  <img height="200" src="img/tree-graph.PNG" />
-  <img height="200" src="img/bubble-graph.PNG" />
-  <img height="200" src="img/link-node-graph.PNG" />
+  <img height="200" src="https://raw.githubusercontent.com/tentenponce/KoinGraph/master/img/tree-graph.PNG" />
+  <img height="200" src="https://raw.githubusercontent.com/tentenponce/KoinGraph/master/img/bubble-graph.PNG" />
+  <img height="200" src="https://raw.githubusercontent.com/tentenponce/KoinGraph/master/img/link-node-graph.PNG" />
 </div>
 
 ### Why use this?
