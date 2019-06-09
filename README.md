@@ -19,7 +19,7 @@ Graph generator for android projects using [Koin](https://github.com/InsertKoinI
 - type `node index --path path\to\android-project\using\koin`
 
 ### Encountering Issues
-- If you encounter any issues, feel free to reach out by creating an issue. Please provide the format on how you register your modules in Koin so we can easily identify the problem.
+- If you encounter any issues, feel free to reach out by [creating an issue](https://github.com/tentenponce/KoinGraph/issues). Please provide the format on how you register your modules in Koin so we can easily identify the problem.
   
 ### Running Tests
 `npm test`
