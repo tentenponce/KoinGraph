@@ -1,11 +1,17 @@
 # KoinGraph
 Graph generator for android projects using [Koin](https://github.com/InsertKoinIO/koin)
 
+<p align="center">
+  <a href="https://travis-ci.org/tentenponce/KoinGraph"><img src="https://api.travis-ci.org/tentenponce/koingraph.svg?branch=master"></a>
+  <a href="https://www.npmjs.com/package/koingraph"><img src="https://img.shields.io/npm/dt/koingraph.svg"></a>
+  <a href="https://www.npmjs.com/package/koingraph"><img src="https://img.shields.io/npm/v/koingraph.svg"></a>
+</p>
+
 ### KoinGraph in Action
 <div align="center">
-  <img height="200" src="img/tree-graph.PNG" />
-  <img height="200" src="img/bubble-graph.PNG" />
-  <img height="200" src="img/link-node-graph.PNG" />
+  <img height="200" src="https://raw.githubusercontent.com/tentenponce/KoinGraph/master/img/tree-graph.PNG" />
+  <img height="200" src="https://raw.githubusercontent.com/tentenponce/KoinGraph/master/img/bubble-graph.PNG" />
+  <img height="200" src="https://raw.githubusercontent.com/tentenponce/KoinGraph/master/img/link-node-graph.PNG" />
 </div>
 
 ### Why use this?
