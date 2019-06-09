@@ -23,7 +23,9 @@
   },
   "homepage": "https://github.com/tentenponce/KoinGraph#readme",
   "dependencies": {
+    "chalk": "^2.4.2",
     "filehound": "^1.17.0",
+    "inquirer": "^6.3.1",
     "minimist": "^1.2.0",
     "opn": "^6.0.0"
   },
