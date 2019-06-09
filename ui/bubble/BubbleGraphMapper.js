@@ -1,13 +1,12 @@
 class BubbleGraphMapper {
-
-  constructor(graph) {
+  constructor (graph) {
     this.graph = graph
   }
 
-  toBubbleGraph() {
-    let rootModules = this.getRootModules()
+  toBubbleGraph () {
+    const rootModules = this.getRootModules()
 
-    let bubble = {
+    const bubble = {
       name: 'Dependencies',
       children: []
     }
@@ -15,8 +14,8 @@ class BubbleGraphMapper {
     /**
      * add roots
      */
-    for (var i in rootModules) {
-      let moduleName = rootModules[i]
+    for (const i in rootModules) {
+      const moduleName = rootModules[i]
 
       bubble.children.push({
         name: moduleName,
@@ -25,8 +24,8 @@ class BubbleGraphMapper {
     }
 
     // get children of roots, and children of children...
-    for (var i in bubble.children) {
-      let child = bubble.children[i]
+    for (const i in bubble.children) {
+      const child = bubble.children[i]
 
       child.children = this.getChildren(child.name)
     }
@@ -38,13 +37,13 @@ class BubbleGraphMapper {
    * get children of children
    * @param moduleName module to check its dependencies
    */
-  getChildren(moduleName) {
-    let children = []
+  getChildren (moduleName) {
+    const children = []
 
-    let dependencies = this.graph[moduleName]
-    for (var i in dependencies) {
-      let dependency = dependencies[i]
-      if (dependency == moduleName) { // avoid forever loop if dependency is the same with module name
+    const dependencies = this.graph[moduleName]
+    for (const i in dependencies) {
+      const dependency = dependencies[i]
+      if (dependency === moduleName) { // avoid forever loop if dependency is the same with module name
         continue
       }
 
@@ -73,10 +72,10 @@ class BubbleGraphMapper {
   /**
    * get all modules that is not a dependency (it means that is a root)
    */
-  getRootModules() {
-    let rootModules = []
+  getRootModules () {
+    const rootModules = []
 
-    for (var i in this.graph) {
+    for (const i in this.graph) {
       if (!this.isDependency(i)) {
         rootModules.push(i)
       }
@@ -85,13 +84,13 @@ class BubbleGraphMapper {
     return rootModules
   }
 
-  isDependency(moduleName) {
-    for (var i in this.graph) {
-      let dependencies = this.graph[i]
-      for (var j in dependencies) {
-        let dependency = dependencies[j]
+  isDependency (moduleName) {
+    for (const i in this.graph) {
+      const dependencies = this.graph[i]
+      for (const j in dependencies) {
+        const dependency = dependencies[j]
 
-        if (dependency == moduleName) {
+        if (dependency === moduleName) {
           return true
         }
       }

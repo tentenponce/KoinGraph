@@ -1,8 +1,7 @@
 const fs = require('fs')
 
 class FileSystemBridge {
-
-  readFile(file) {
+  readFile (file) {
     return fs.readFileSync(file, 'utf8')
   }
 }

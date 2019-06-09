@@ -1,4 +1,4 @@
-const expect = require('chai').expect
+const { expect } = require('chai')
 const sinon = require('sinon')
 
 const DependencyReaderHelper = require('../../domain/DependencyReaderHelper')
@@ -7,31 +7,33 @@ const helper = new DependencyReaderHelper()
 
 describe('getModules()', () => {
   it('should return modules with or without dependencies', () => {
-    let fileContent = `
+    const fileContent = `
       single { ComponentA(get(), get()) }
       single { ComponentB() }
       viewModel { ViewModelA(get(), get(), get(), get()) }
       viewModel { ViewModelB() }
     `
 
-    expect(helper.getModulesFromFile(fileContent)).to.include.members(['ComponentA', 'ComponentB', 'ViewModelA', 'ViewModelB'])
+    expect(helper.getModulesFromFile(fileContent)).to.include.members(
+      ['ComponentA', 'ComponentB', 'ViewModelA', 'ViewModelB'])
   })
 
   it('should return aliases', () => {
-    let fileContent = `
+    const fileContent = `
       single { ComponentA(get(), get()) as ComponentAlias }
       single<ComponentBAlias> { ComponentB() }
       viewModel { ViewModelA(get(), get(), get(), get()) }
       viewModel { ViewModelB() }
     `
 
-    expect(helper.getModulesFromFile(fileContent)).to.include.members(['ComponentAlias', 'ComponentBAlias', 'ViewModelA', 'ViewModelB'])
+    expect(helper.getModulesFromFile(fileContent)).to.include.members(
+      ['ComponentAlias', 'ComponentBAlias', 'ViewModelA', 'ViewModelB'])
   })
 })
 
 describe('getClassDependencies()', () => {
   it('should return dependencies of the class', () => {
-    let fileContent = `
+    const fileContent = `
       import blah.blah.blah
       import com.android.blah
 
@@ -44,7 +46,7 @@ describe('getClassDependencies()', () => {
   })
 
   it('should return empty array of dependencies if class has none', () => {
-    let fileContent = `
+    const fileContent = `
       import blah.blah.blah
       import com.android.blah
 

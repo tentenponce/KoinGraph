@@ -1,4 +1,4 @@
-const expect = require('chai').expect
+const { expect } = require('chai')
 const sinon = require('sinon')
 
 const KoinGraphService = require('../../domain/KoinGraphService')
@@ -11,7 +11,6 @@ const dependencyReaderHelper = new DependencyReaderHelper()
 const classCastHelper = new ClassCastHelper()
 
 describe('buildGraph()', () => {
-
   sinon.stub(fileSystemBridge, 'readFile').returns('test')
 
   sinon.stub(dependencyReaderHelper, 'getModulesFromFile').returns(['ComponentA'])
@@ -22,26 +21,26 @@ describe('buildGraph()', () => {
 
   it('should add dependencies to the graph also', () => {
     expect(service.buildGraph(['ComponentA.kt'])).to.deep.equal({
-      'ComponentA': [
+      ComponentA: [
         'DependencyA',
         'DependencyB'
       ],
-      'DependencyA': [],
-      'DependencyB': []
+      DependencyA: [],
+      DependencyB: []
     })
   })
 
   it('should add dependencies of dependencies to the graph also', () => {
     expect(service.buildGraph(['ComponentA.kt', 'DependencyA.kt', 'DependencyB.kt'])).to.deep.equal({
-      'ComponentA': [
+      ComponentA: [
         'DependencyA',
         'DependencyB'
       ],
-      'DependencyA': [
+      DependencyA: [
         'DependencyA',
         'DependencyB'
       ],
-      'DependencyB': [
+      DependencyB: [
         'DependencyA',
         'DependencyB'
       ]

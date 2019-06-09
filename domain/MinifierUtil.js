@@ -1,4 +1,4 @@
-function minifyString(fileContent) {
+function minifyString (fileContent) {
   return fileContent.replace(/\s/g, '')
 }
 
