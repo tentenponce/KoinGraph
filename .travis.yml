@@ -4,11 +4,15 @@ node_js:
 cache:
   directories:
     - "node_modules"
-script:
-  - npm run lint
-  - npm test
-branches:
-  only:
-    - master
-  script:
-    - npm publish
+jobs:
+  include:
+    - stage: Run Lint and Tests
+      script: 
+        - npm run lint
+        - npm run test
+      deploy:
+        provider: npm
+        email: $NPM_EMAIL
+        api_key: $NPM_API_KEY
+        on:
+          branch: master
