@@ -25,7 +25,7 @@ describe('getModules()', () => {
       viewModel { ViewModelB() }
     `
 
-    expect(helper.getModulesFromFile(fileContent)).to.include.members(['ComponentAlia', 'ComponentBAlias', 'ViewModelA', 'ViewModelB'])
+    expect(helper.getModulesFromFile(fileContent)).to.include.members(['ComponentAlias', 'ComponentBAlias', 'ViewModelA', 'ViewModelB'])
   })
 })
 
