@@ -12,6 +12,5 @@ jobs:
       script: npm test
     - stage: Publish on NPM
       script: npm publish
-      branches:
-        only:
-          - master
+      on:
+        branch: master
