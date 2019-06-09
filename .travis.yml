@@ -4,11 +4,14 @@ node_js:
 cache:
   directories:
     - "node_modules"
-script:
-  - npm run lint
-  - npm test
-branches:
-  only:
-    - master
-  script:
-    - npm publish
+jobs:
+  include:
+    - stage: Run Lint
+      script: npm run lint
+    - stage: Run Tests
+      script: npm test
+    - stage: Publish on NPM
+      script: npm publish
+      branches:
+        only:
+          - master
