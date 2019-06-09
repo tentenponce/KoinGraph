@@ -1,5 +1,5 @@
 # KoinGraph
-Graph generator for android projects using Koin
+Graph generator for android projects using [Koin](https://github.com/InsertKoinIO/koin)
 
 ### KoinGraph in Action
 <div align="center">
