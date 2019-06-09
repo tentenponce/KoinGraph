@@ -14,9 +14,8 @@ Graph generator for android projects using [Koin](https://github.com/InsertKoinI
 - Identify those classes that will be affected when you change/update dependency
 
 ### How to use
-- clone this repository
-- type `npm install`
-- type `node index --path path\to\android-project\using\koin`
+- install globally: `npm install -g koingraph`
+- execute: `koingraph --path path\to\android-project\using\koin`
 
 ### Encountering Issues
 - If you encounter any issues, feel free to reach out by [creating an issue](https://github.com/tentenponce/KoinGraph/issues). Please provide the format on how you register your modules in Koin so we can easily identify the problem.

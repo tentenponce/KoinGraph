@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require('fs')
 const opn = require('opn')
 const path = require('path')
@@ -45,25 +47,25 @@ inquirer.prompt([{
       const treeGraphMapper = new TreeGraphMapper(jsonGraph)
 
       const tree = treeGraphMapper.toTreeGraph()
-      fs.writeFileSync('ui/tree/koin-graph.js', `var treeData = ${  JSON.stringify(tree, null, 2)}`)
-      opn(path.resolve('ui/tree/tree-graph.html'))
+      fs.writeFileSync(__dirname + '/ui/tree/koin-graph.js', `var treeData = ${  JSON.stringify(tree, null, 2)}`)
+      opn(path.resolve(__dirname + '/ui/tree/tree-graph.html'))
       break
     case 'Bubble Graph':
       const bubbleGraphMapper = new BubbleGraphMapper(jsonGraph)
 
       const bubble = bubbleGraphMapper.toBubbleGraph()
-      fs.writeFileSync('ui/bubble/koin-graph.js', `var bubbleData = ${  JSON.stringify(bubble, null, 2)}`)
-      opn(path.resolve('ui/bubble/bubble-graph.html'))
+      fs.writeFileSync(__dirname + '/ui/bubble/koin-graph.js', `var bubbleData = ${  JSON.stringify(bubble, null, 2)}`)
+      opn(path.resolve(__dirname + '/ui/bubble/bubble-graph.html'))
       break
     case 'Link Node Graph':
       const linkNodeGraphMapper = new LinkNodeGraphMapper(jsonGraph)
 
       const linkNodeGraph = linkNodeGraphMapper.toLinkNodeGraph()
 
-      fs.writeFileSync('ui/linknode/koin-graph.js', '')
-      fs.appendFileSync('ui/linknode/koin-graph.js', `var nodes = ${  JSON.stringify(linkNodeGraph.nodes, null, 2)}`)
-      fs.appendFileSync('ui/linknode/koin-graph.js', `\nvar links = ${  JSON.stringify(linkNodeGraph.links, null, 2)}`)
-      opn(path.resolve('ui/linknode/link-node-graph.html'))
+      fs.writeFileSync(__dirname + '/ui/linknode/koin-graph.js', '')
+      fs.appendFileSync(__dirname + '/ui/linknode/koin-graph.js', `var nodes = ${  JSON.stringify(linkNodeGraph.nodes, null, 2)}`)
+      fs.appendFileSync(__dirname + '/ui/linknode/koin-graph.js', `\nvar links = ${  JSON.stringify(linkNodeGraph.links, null, 2)}`)
+      opn(path.resolve(__dirname + '/ui/linknode/link-node-graph.html'))
       break
     default:
       console.log('Please specify graph by using --graph parameter')

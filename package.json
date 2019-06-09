@@ -1,12 +1,15 @@
 {
   "name": "koingraph",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Graph generator for android projects using Koin",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "mocha --recursive"
+  },
+  "bin": {
+    "koingraph": "./index.js"
   },
   "directories": {
     "test": "test"
