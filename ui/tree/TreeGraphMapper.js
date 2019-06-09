@@ -1,13 +1,12 @@
 class TreeGraphMapper {
-
-  constructor(graph) {
+  constructor (graph) {
     this.graph = graph
   }
 
-  toTreeGraph() {
-    let rootModules = this.getRootModules()
+  toTreeGraph () {
+    const rootModules = this.getRootModules()
 
-    let tree = {
+    const tree = {
       name: 'Dependencies',
       children: []
     }
@@ -15,8 +14,8 @@ class TreeGraphMapper {
     /**
      * add roots
      */
-    for (var i in rootModules) {
-      let moduleName = rootModules[i]
+    for (const i in rootModules) {
+      const moduleName = rootModules[i]
 
       tree.children.push({
         name: moduleName,
@@ -25,8 +24,8 @@ class TreeGraphMapper {
     }
 
     // get children of roots, and children of children...
-    for (var i in tree.children) {
-      let child = tree.children[i]
+    for (const i in tree.children) {
+      const child = tree.children[i]
 
       child.children = this.getChildren(child.name)
     }
@@ -38,13 +37,13 @@ class TreeGraphMapper {
    * get children of children
    * @param moduleName module to check its dependencies
    */
-  getChildren(moduleName) {
-    let children = []
+  getChildren (moduleName) {
+    const children = []
 
-    let dependencies = this.graph[moduleName]
-    for (var i in dependencies) {
-      let dependency = dependencies[i]
-      if (dependency == moduleName) { // avoid forever loop if dependency is the same with module name
+    const dependencies = this.graph[moduleName]
+    for (const i in dependencies) {
+      const dependency = dependencies[i]
+      if (dependency === moduleName) { // avoid forever loop if dependency is the same with module name
         continue
       }
 
@@ -71,10 +70,10 @@ class TreeGraphMapper {
   /**
    * get all modules that is not a dependency (it means that is a root)
    */
-  getRootModules() {
-    let rootModules = []
+  getRootModules () {
+    const rootModules = []
 
-    for (var i in this.graph) {
+    for (const i in this.graph) {
       if (!this.isDependency(i)) {
         rootModules.push(i)
       }
@@ -83,13 +82,13 @@ class TreeGraphMapper {
     return rootModules
   }
 
-  isDependency(moduleName) {
-    for (var i in this.graph) {
-      let dependencies = this.graph[i]
-      for (var j in dependencies) {
-        let dependency = dependencies[j]
+  isDependency (moduleName) {
+    for (const i in this.graph) {
+      const dependencies = this.graph[i]
+      for (const j in dependencies) {
+        const dependency = dependencies[j]
 
-        if (dependency == moduleName) {
+        if (dependency === moduleName) {
           return true
         }
       }

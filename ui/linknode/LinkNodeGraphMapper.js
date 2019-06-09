@@ -1,21 +1,20 @@
 class LinkNodeGraphMapper {
-
-  constructor(graph) {
+  constructor (graph) {
     this.graph = graph
   }
 
-  toLinkNodeGraph() {
+  toLinkNodeGraph () {
     return {
       nodes: this.buildNodes(),
       links: this.buildLinks()
     }
   }
 
-  buildNodes() {
-    let nodes = []
-    for (var i in this.graph) {
-      let dependencies = this.graph[i]
-      let node = {
+  buildNodes () {
+    const nodes = []
+    for (const i in this.graph) {
+      const dependencies = this.graph[i]
+      const node = {
         id: i,
         group: dependencies.length,
         label: i,
@@ -28,14 +27,14 @@ class LinkNodeGraphMapper {
     return nodes
   }
 
-  buildLinks() {
-    let links = []
-    for (var i in this.graph) {
-      let dependencies = this.graph[i]
+  buildLinks () {
+    const links = []
+    for (const i in this.graph) {
+      const dependencies = this.graph[i]
 
-      for (var j in dependencies) {
-        let dependency = dependencies[j]
-        let link = {
+      for (const j in dependencies) {
+        const dependency = dependencies[j]
+        const link = {
           target: i,
           source: dependency,
           strength: this.calcStrength(dependency)
@@ -51,11 +50,10 @@ class LinkNodeGraphMapper {
   /**
    * calculate strength of link depends if the module has dependencies
    */
-  calcStrength(dependency) {
-    for (var i in this.graph) {
-      if (i == dependency) {
+  calcStrength (dependency) {
+    for (const i in this.graph) {
+      if (i === dependency) {
         return (this.graph[i].length > 0) ? 1 : 0
-        break
       }
     }
   }

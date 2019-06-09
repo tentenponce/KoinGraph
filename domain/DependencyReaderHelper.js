@@ -1,8 +1,7 @@
 const MinifierUtil = require('./MinifierUtil')
 
 class DependencyReaderHelper {
-
-  getModulesFromFile(fileContent) {
+  getModulesFromFile (fileContent) {
     /**
      * get array of single{...} and viewModel{...} from the minified file.
      * 
@@ -11,8 +10,8 @@ class DependencyReaderHelper {
      * input minified file content: ...single{componentA(get(), get())}single{componentB(get(),get())}...
      * output array: ['single{componentA(get(), get())}', 'single{componentB(get(),get())}']
      */
-    let minifiedFile = MinifierUtil.minifyString(fileContent)
-    let modules = minifiedFile.match(/(single|viewModel)((?!(single|viewModel)).)*\(((?!(single|viewModel)).)*\}/g)
+    const minifiedFile = MinifierUtil.minifyString(fileContent)
+    const modules = minifiedFile.match(/(single|viewModel)((?!(single|viewModel)).)*\(((?!(single|viewModel)).)*\}/g)
 
     /**
      * get the module names by removing `single{` and `viewModel{` and terminates on the first open parenthesis.
@@ -25,11 +24,11 @@ class DependencyReaderHelper {
      * input array: ['single{componentA(get(), get())asAnotherClass}', 'single{componentB(get(),get())}']
      * output array: ['AnotherClass', 'componentB']
      */
-    let moduleFiles = []
-    for (var i in modules) {
-      let moduleName = modules[i]
+    const moduleFiles = []
+    for (const i in modules) {
+      const moduleName = modules[i]
       if (!this.isAlias(moduleName)) {
-        let moduleNode = moduleName.replace('single{', '').replace('viewModel{', '') // remove `single{` and `viewModel{`.
+        const moduleNode = moduleName.replace('single{', '').replace('viewModel{', '') // remove `single{` and `viewModel{`.
         moduleFiles.push(moduleNode.match(/[^(]+(?:(?!\().)/)[0]) // get word up until first open parenthesis.
       } else {
         /* extract alias */
@@ -44,7 +43,7 @@ class DependencyReaderHelper {
     return moduleFiles
   }
 
-  getDependenciesFromFile(fileContent) {
+  getDependenciesFromFile (fileContent) {
     /**
      * get class name with its dependencies.
      * 
@@ -56,7 +55,7 @@ class DependencyReaderHelper {
      * input without dependency: import....classComponentA{....
      * output : classComponentA
      */
-    let className = MinifierUtil.minifyString(fileContent).match(/class[^{)]+/)
+    const className = MinifierUtil.minifyString(fileContent).match(/class[^{)]+/)
 
     /** 
      * remove the class name to get dependencies only and split it.
@@ -72,9 +71,9 @@ class DependencyReaderHelper {
       rawDependencies = []
     }
 
-    let dependencies = []
-    for (var i in rawDependencies) {
-      let dependency = rawDependencies[i]
+    const dependencies = []
+    for (const i in rawDependencies) {
+      const dependency = rawDependencies[i]
 
       /**
        * get dependency class type.
@@ -83,7 +82,7 @@ class DependencyReaderHelper {
        * input: dependencyA: DependencyA
        * output: DependencyA
        */
-      let dependencyType = dependency.replace(/.+:/, '')
+      const dependencyType = dependency.replace(/.+:/, '')
 
       if (dependencyType) {
         dependencies.push(dependencyType)
@@ -93,8 +92,8 @@ class DependencyReaderHelper {
     return dependencies
   }
 
-  isAlias(rawModule) {
-    return rawModule.slice(-2) != ')}' ||
+  isAlias (rawModule) {
+    return rawModule.slice(-2) !== ')}' ||
       rawModule.indexOf('single<') >= 0 ||
       rawModule.indexOf('viewModel<') >= 0
   }

@@ -1,0 +1,114 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "env": {
+    "es6": true
+  },
+  "plugins": [
+    "import"
+  ],
+  "rules": {
+    "prefer-const": "error",
+    "prefer-destructuring": "error",
+    "prefer-rest-params": "error",
+    "prefer-template": "error",
+    "prefer-spread": "error",
+    "prefer-arrow-callback": "error",
+    "no-const-assign": "error",
+    "no-var": "error",
+    "no-new-object": "error",
+    "no-array-constructor": "error",
+    "no-loop-func": "error",
+    "no-confusing-arrow": "error",
+    "no-duplicate-imports": "error",
+    "no-unreachable": "error",
+    "no-multi-assign": "error",
+    "no-plusplus": "error",
+    "no-nested-ternary": "error",
+    "no-unneeded-ternary": "error",
+    "no-mixed-operators": "error",
+    "no-else-return": "error",
+    "no-iterator": "error",
+    "no-param-reassign": "error",
+    "no-whitespace-before-property": "error",
+    "newline-per-chained-call": "error",
+    "padded-blocks": [
+      "error",
+      "never"
+    ],
+    "no-new-wrappers": "error",
+    "no-underscore-dangle": "error",
+    "quote-props": [
+      "error",
+      "as-needed"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "space-before-blocks": "error",
+    "space-before-function-paren": "error",
+    "spaced-comment": "error",
+    "space-infix-ops": "error",
+    "space-in-parens": "error",
+    "arrow-body-style": [
+      "error",
+      "as-needed"
+    ],
+    "arrow-parens": [
+      "error",
+      "as-needed"
+    ],
+    "comma-style": "error",
+    "comma-dangle": [
+      "error",
+      "only-multiline"
+    ],
+    "keyword-spacing": "error",
+    "array-bracket-spacing": "error",
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "arrow-spacing": "error",
+    "brace-style": "error",
+    "semi": [
+      "error",
+      "never"
+    ],
+    "dot-notation": "error",
+    "one-var": [
+      "error",
+      "never"
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 120,
+        "tabWidth": 2,
+        "ignoreComments": true,
+        "ignoreTrailingComments": true,
+        "ignoreRegExpLiterals": true
+      }
+    ],
+    "operator-linebreak": [
+      "error",
+      "after"
+    ],
+    "nonblock-statement-body-position": "error",
+    "object-shorthand": "warn",
+    "eqeqeq": "warn",
+    "radix": "error",
+    "id-length": [
+      "off",
+      {
+        "min": 2,
+        "max": 30
+      }
+    ],
+    "import/first": "error",
+    "import/no-mutable-exports": "warn",
+    "import/prefer-default-export": "off"
+  }
+}
