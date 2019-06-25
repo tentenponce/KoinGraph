@@ -1,7 +1,7 @@
 const MinifierUtil = require('./MinifierUtil')
 
 class DependencyReaderHelper {
-  getModulesFromFile(fileContent) {
+  getModulesFromFile (fileContent) {
     /**
      * get array of single{...}, viewModel{...} and factory{...} from the minified file.
      * 
@@ -28,7 +28,9 @@ class DependencyReaderHelper {
     for (const i in modules) {
       const moduleName = modules[i]
       if (!this.isAlias(moduleName)) {
-        const moduleNode = moduleName.replace('single{', '').replace('viewModel{', '').replace('factory{', '') // remove `single{`, `viewModel{` and `factory{`.
+        const moduleNode = moduleName.replace('single{', '')
+          .replace('viewModel{', '')
+          .replace('factory{', '') // remove `single{`, `viewModel{` and `factory{`.
         moduleFiles.push(moduleNode.match(/[^(]+(?:(?!\().)/)[0]) // get word up until first open parenthesis.
       } else {
         /* extract alias */
@@ -45,7 +47,7 @@ class DependencyReaderHelper {
     return moduleFiles
   }
 
-  getDependenciesFromFile(fileContent) {
+  getDependenciesFromFile (fileContent) {
     /**
      * get class name with its dependencies.
      * 
@@ -94,7 +96,7 @@ class DependencyReaderHelper {
     return dependencies
   }
 
-  isAlias(rawModule) {
+  isAlias (rawModule) {
     return rawModule.slice(-2) !== ')}' ||
       rawModule.indexOf('single<') >= 0 ||
       rawModule.indexOf('viewModel<') >= 0 ||
