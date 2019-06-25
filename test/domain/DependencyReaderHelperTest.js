@@ -10,24 +10,26 @@ describe('getModules()', () => {
     const fileContent = `
       single { ComponentA(get(), get()) }
       single { ComponentB() }
+      factory { ComponentC() } 
       viewModel { ViewModelA(get(), get(), get(), get()) }
       viewModel { ViewModelB() }
     `
 
     expect(helper.getModulesFromFile(fileContent)).to.include.members(
-      ['ComponentA', 'ComponentB', 'ViewModelA', 'ViewModelB'])
+      ['ComponentA', 'ComponentB', 'ComponentC', 'ViewModelA', 'ViewModelB'])
   })
 
   it('should return aliases', () => {
     const fileContent = `
       single { ComponentA(get(), get()) as ComponentAlias }
       single<ComponentBAlias> { ComponentB() }
+      factory<ComponentCAlias> { ComponentC() }
       viewModel { ViewModelA(get(), get(), get(), get()) }
       viewModel { ViewModelB() }
     `
 
     expect(helper.getModulesFromFile(fileContent)).to.include.members(
-      ['ComponentAlias', 'ComponentBAlias', 'ViewModelA', 'ViewModelB'])
+      ['ComponentAlias', 'ComponentBAlias', 'ComponentCAlias', 'ViewModelA', 'ViewModelB'])
   })
 })
 
