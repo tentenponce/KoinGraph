@@ -5,35 +5,47 @@ const DependencyReaderHelper = require('../../domain/DependencyReaderHelper')
 
 const helper = new DependencyReaderHelper()
 
-describe('getModules()', () => {
+describe('getModulesFromFile()', () => {
   it('should return modules with or without dependencies', () => {
     const fileContent = `
       single { ComponentA(get(), get()) }
       single { ComponentB() }
-      factory { ComponentC() } 
+      factory { FactoryA(get(), get()) }
+      factory { FactoryB() } 
       viewModel { ViewModelA(get(), get(), get(), get()) }
       viewModel { ViewModelB() }
+      scope(named<Activity>()) {
+        scoped { ScopeA() }
+        scoped { ScopeB() }
+      }
     `
 
     expect(helper.getModulesFromFile(fileContent)).to.include.members(
-      ['ComponentA', 'ComponentB', 'ComponentC', 'ViewModelA', 'ViewModelB'])
+      ['ComponentA', 'ComponentB', 'FactoryA', 'FactoryB', 'ViewModelA',
+        'ViewModelB', 'ScopeA', 'ScopeB'])
   })
 
   it('should return aliases', () => {
     const fileContent = `
       single { ComponentA(get(), get()) as ComponentAlias }
       single<ComponentBAlias> { ComponentB() }
-      factory<ComponentCAlias> { ComponentC() }
+      factory { ComponentC() as ComponentCAlias }
+      factory<ComponentDAlias> { ComponentD() }
       viewModel { ViewModelA(get(), get(), get(), get()) }
       viewModel { ViewModelB() }
+      scope(named<Activity>()) {
+        scoped<ScopeAAlias>{ ScopeA() }
+        scoped<ScopeBAlias>{ ScopeB() }
+      }
     `
 
     expect(helper.getModulesFromFile(fileContent)).to.include.members(
-      ['ComponentAlias', 'ComponentBAlias', 'ComponentCAlias', 'ViewModelA', 'ViewModelB'])
+      ['ComponentAlias', 'ComponentBAlias', 'ComponentCAlias', 'ComponentDAlias',
+        'ViewModelA', 'ViewModelB', 'ScopeAAlias', 'ScopeBAlias'])
   })
 })
 
-describe('getClassDependencies()', () => {
+describe('getDependenciesFromFile()', () => {
   it('should return dependencies of the class', () => {
     const fileContent = `
       import blah.blah.blah
