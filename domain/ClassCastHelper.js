@@ -7,8 +7,10 @@ class ClassCastHelper {
     
     if (rawClassDetail) {
       const extAndInterface = rawClassDetail[0].substring(rawClassDetail[0].lastIndexOf(':'))
-      return extAndInterface.indexOf(castName) >= 0
+      return extAndInterface == `:${castName}`
     }
+
+    return false
   }
 }
 

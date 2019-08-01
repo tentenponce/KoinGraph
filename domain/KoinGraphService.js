@@ -53,8 +53,7 @@ class KoinGraphService {
       const file = projFiles[j]
 
       const fileContent = this.fileSystemBridge.readFile(file)
-
-      if (file.indexOf(`${moduleName  }.kt`) >= 0 ||
+      if (file.indexOf(`${moduleName}.kt`) >= 0 ||
         this.classCastHelper.isClassCast(fileContent, moduleName)) {
         // get the dependencies of the module
         return this.dependencyReaderHelper.getDependenciesFromFile(fileContent)

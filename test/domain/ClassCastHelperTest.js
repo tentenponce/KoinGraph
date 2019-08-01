@@ -13,8 +13,17 @@ describe('isClassCast(fileContent, castName)', () => {
 
     expect(helper.isClassCast(fileContent, 'ComponentAlias')).to.be.true
   })
-  it('should return false if class is castName exists on the extension and interface', () => {
+
+  it('should return false if castName does not exists on the extension and interface', () => {
     const fileContent = `class ComponentA(dependencyA: DependencyA) {
+      ...more codes...
+    }`
+
+    expect(helper.isClassCast(fileContent, 'ComponentAlias')).to.be.false
+  })
+
+  it('should return false if castName exists as parameter instead of extension or interface', () => {
+    const fileContent = `class ComponentA(parameterComponentAlias: ComponentAlias) {
       ...more codes...
     }`
 
