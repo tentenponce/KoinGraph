@@ -46,12 +46,38 @@ describe('getModulesFromFile()', () => {
 })
 
 describe('getDependenciesFromFile()', () => {
-  it('should return dependencies of the class', () => {
+  it('should return dependencies from a simple class', () => {
     const fileContent = `
       import blah.blah.blah
       import com.android.blah
 
       class ComponentA(dependencyA: DependencyA, dependencyB: DependencyB) {
+        more codesss
+      }
+    `
+
+    expect(helper.getDependenciesFromFile(fileContent)).to.include.members(['DependencyA', 'DependencyB'])
+  })
+
+  it('should return dependencies from a class with generics', () => {
+    const fileContent = `
+      import blah.blah.blah
+      import com.android.blah
+
+      class ComponentA<V>(dependencyA: DependencyA, dependencyB: DependencyB) : AppCompatActivity() {
+        more codesss
+      }
+    `
+
+    expect(helper.getDependenciesFromFile(fileContent)).to.include.members(['DependencyA', 'DependencyB'])
+  })
+
+  it('should return dependencies from a class with generics and its type', () => {
+    const fileContent = `
+      import blah.blah.blah
+      import com.android.blah
+
+      class ComponentA<V, T : BaseV<V>>(dependencyA: DependencyA, dependencyB: DependencyB) : AppCompatActivity() {
         more codesss
       }
     `
