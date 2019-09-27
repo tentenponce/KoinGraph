@@ -1,6 +1,6 @@
 {
   "name": "koingraph",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Graph generator for android projects using Koin",
   "main": "index.js",
   "scripts": {
